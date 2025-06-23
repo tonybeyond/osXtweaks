@@ -1,4 +1,4 @@
-# copy to ~/.config/karabiner/karabiner.json
+## copy to ~/.config/karabiner/karabiner.json
 {
     "global": { "check_for_updates_on_startup": false },
     "profiles": [
