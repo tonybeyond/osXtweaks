@@ -8,6 +8,10 @@ export ZPLUG_HOME=$(brew --prefix)/opt/zplug
 source $ZPLUG_HOME/init.zsh
 zplug "mafredri/zsh-async", from:github
 zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+zplug "zsh-users/zsh-syntax-highlighting", from:github
+zplug "zsh-users/zsh-autosuggestions", from:github
+zplug "marlonrichert/zsh-autocomplete", from:github
+#export PURE_PROMPT_PATH_FORMATTING="%~"
 zplug load
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -17,7 +21,7 @@ if ! zplug check --verbose; then
     fi
 fi
 
-plugins=(git vscode fzf macos zsh-autocomplete zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git vscode fzf macos)
 
 source $ZSH/oh-my-zsh.sh
 
