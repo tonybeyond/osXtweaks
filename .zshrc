@@ -1,34 +1,32 @@
-# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# ZSH_THEME="agnoster"
-ZSH_THEME=""
+ZSH_THEME="funky"
 
-export ZPLUG_HOME=$(brew --prefix)/opt/zplug
-source $ZPLUG_HOME/init.zsh
-zplug "mafredri/zsh-async", from:github
-zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
-zplug "zsh-users/zsh-syntax-highlighting", from:github
-zplug "zsh-users/zsh-autosuggestions", from:github
-zplug "marlonrichert/zsh-autocomplete", from:github
-#export PURE_PROMPT_PATH_FORMATTING="%~"
-zplug load
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
+ENABLE_CORRECTION="true"
 
-plugins=(git vscode fzf macos)
+COMPLETION_WAITING_DOTS="true"
+
+plugins=(
+        git
+        fzf
+        macos
+        vscode
+        z
+        zsh-autocomplete
+        zsh-syntax-highlighting
+        zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nvim'
+else
+  export EDITOR='nano'
+fi
+
+# User configuration
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes.
 alias ..='cd ..'
@@ -40,12 +38,16 @@ alias .5='cd ../../../../..'
 # vim and emacs
 alias vim='nvim'
 
-# Changing "ls" to "exa"
+# Changing "ls" to "eza"
 alias ls='eza -al --color=always --group-directories-first'
 alias la='eza -a --color=always --group-directories-first'
 alias ll='eza -l --color=always --group-directories-first'
 alias lt='eza -aT --color=always --group-directories-first'
 alias l.='eza -a | egrep "^\."'
+
+# rpm-ostree
+alias upall='sudo dnf update && sudo dnf upgrade -y'
+alias upcheck='sudo dnf check-update'
 
 # Colorize grep output
 alias grep='grep --color=auto'
@@ -65,17 +67,20 @@ alias bud='brew update'
 alias bug='brew upgrade'
 alias bcu='brew cleanup'
 
+# git
+alias addup='git add -u'
+alias addall='git add .'
+alias branch='git branch'
+alias checkout='git checkout'
+alias clone='git clone'
+alias commit='git commit -m'
+alias fetch='git fetch'
+alias pull='git pull origin'
+alias push='git push origin'
+alias tag='git tag'
+alias newtag='git tag -a'
+
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
 # system reporting
-hyfetch
-
-# Created by `pipx` on 2024-06-10 13:41:15
-export PATH="$PATH:/Users/machy/.local/bin"
-export PATH="$PATH:/Users/machy/go/bin/"
-
-# personal fabric aliaes
-alias ytsum='function _ytsummarize() { fabric -y "$1" --stream --pattern youtube_summary | glow; }; _ytsummarize'
-alias ytbase='function _ytsummarize() { fabric -y "$1"; }; _ytsummarize'
-alias claims='pbpaste | fabric --stream --pattern analyze_claims | glow'
-alias summarize='pbpaste  | fabric --stream --pattern summarize -g=fr | glow'
-fpath=(~/.zsh/completions $fpath)
-autoload -Uz compinit && compinit
+fastfetch
