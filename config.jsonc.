@@ -1,0 +1,109 @@
+    {
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "type": "builtin",
+        "source": "macos",
+        "padding": { "top": 1, "left": 4 }
+    },
+    "display": {
+        "separator": "  ",
+        "color": { "keys": "light_blue" }
+    },
+    "modules": [
+        {
+            "type": "title",
+            "key": " ",
+            "color": {
+                "user": "light_blue",
+                "at": "white",
+                "host": "magenta"
+            }
+        },
+        "break",
+        {
+            "type": "command",
+            "key": " 󱋩"
+        },
+        {
+            "type": "os",
+            "key": " ",
+            "format": "{pretty-name}"
+        },
+        {
+            "type": "kernel",
+            "key": " ",
+            "format": "{1} {2}"
+        },
+        {
+            "type": "uptime",
+            "key": " 󰅐"
+        },
+        "break",
+        {
+            "type": "host",
+            "key": " 󰾰"
+        },
+        {
+            "type": "cpu",
+            "key": " 󰻠"
+        },
+        {
+            "type": "gpu",
+            "key": " 󰍛"
+        },
+        {
+            "type": "memory",
+            "key": " "
+        },
+        {
+            "type": "disk",
+            "key": " ",
+            "hideFS": "overlay",
+            "useAvailable": true,
+            "format": "{size-used} / {size-total} ({size-percentage}) - {filesystem} - {name}"
+        },
+        {
+            "type": "display",
+            "key": " 󰍹"
+        },
+        {
+            "type": "battery",
+            "key": " "
+        },
+        
+        {
+            "type": "localip",
+            "key": " ",
+            "showIpv4": true,
+            "showIpv6": false,
+            "defaultRouteOnly": true,
+            "format": "{ipv4}"
+        },
+        {
+            "type": "publicip",
+            "key": " ",
+            "ipv6": false,
+            "format": "{ip}"
+        },
+        "break",
+        
+        {
+            "type": "shell",
+            "key": " "
+        },
+        {
+            "type": "terminal",
+            "key": " "
+        },
+        {
+            "type": "packages",
+            "key": " 󰏖"
+        },
+        "break",
+        {
+            "type": "colors",
+            "paddingLeft": 2,
+            "symbol": "circle"
+        }
+    ]
+}
