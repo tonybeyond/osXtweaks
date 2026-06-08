@@ -393,8 +393,11 @@ set -e
 PLIST_DIR="/Library/Managed Preferences"
 PLIST="$PLIST_DIR/com.brave.Browser.plist"
 
-# 1) S'assurer que le dossier existe EN AMONT (avant toute écriture)
+# 1) S'assurer que le dossier existe EN AMONT, avec les bonnes permissions
+#    (root:wheel 755) comme indiqué par la doc officielle Brave.
 mkdir -p "$PLIST_DIR"
+/usr/sbin/chown root:wheel "$PLIST_DIR"
+/bin/chmod 755 "$PLIST_DIR"
 
 # 2) Écrire le fichier de policy DIRECTEMENT en XML.
 #    NB : on n'utilise PAS `defaults write` ici car /Library/Managed Preferences
@@ -432,6 +435,21 @@ PLIST_XML
 # 4) Permissions correctes
 /bin/chmod 644 "$PLIST"
 /usr/sbin/chown root:wheel "$PLIST"
+
+# 5) *** ÉTAPE CRITIQUE *** : flusher le cache cfprefsd.
+#    Sans ça, le daemon a mis en cache "aucune policy gérée pour ce domaine"
+#    avant qu'on crée le fichier → Brave ne voit rien sur brave://policy.
+#    Doc officielle Brave : "You like need to run this to see the effect
+#    after restarting the browser when using the managed PlistBuddy commands."
+/usr/bin/killall cfprefsd 2>/dev/null || true
+sleep 1
+
+# 6) Vérification : cfprefsd voit-il bien notre policy ?
+if /usr/bin/defaults read "/Library/Managed Preferences/com.brave.Browser" BraveRewardsDisabled &>/dev/null; then
+  echo "  cfprefsd voit bien la policy."
+else
+  echo "  Avertissement : cfprefsd ne lit pas encore la policy (Brave la prendra au lancement)."
+fi
 SUDO_EOF
 
   if [[ $? -eq 0 && -f "$plist" ]]; then
