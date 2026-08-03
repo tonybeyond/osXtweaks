@@ -10,15 +10,13 @@
 
 # =========================== THÈME & COULEURS ==============================
 
-# Nom renommé en 1.2.0 : "catppuccin-mocha" (tiret) -> "Catppuccin Mocha".
-# La forme ci-dessous est celle vérifiée fonctionnelle sur cette machine.
-# Nom canonique du fichier de thème : "Catppuccin Mocha" (majuscules) —
-# à utiliser si cette config est réutilisée sur un FS sensible à la casse.
+# Nom renommé en 1.2.0 : "catppuccin-mocha" -> "Catppuccin Mocha".
+# La recherche est insensible à la casse, donc "catppuccin mocha" marche aussi.
 # En cas de "theme not found" : ghostty +list-themes
-theme = catppuccin mocha
+theme = Catppuccin Mocha
 
 # Variante auto light/dark (suit l'apparence système) :
-# theme = light:catppuccin latte,dark:catppuccin mocha
+# theme = light:Catppuccin Latte,dark:Catppuccin Mocha
 # ⚠ Sur macOS 26 + background-blur glass, les thèmes clairs cassent le
 #   rendu du titlebar (ghostty#9991). Rester en Mocha fixe évite le bug.
 
@@ -123,9 +121,9 @@ shell-integration = detect
 shell-integration-features = cursor,sudo,title
 
 # scrollback-limit est en OCTETS, pas en lignes (défaut : 10000000 = 10 Mo).
-scrollback-limit = 100000000   # 100 Mo, ~10x le défaut
+scrollback-limit = 100000000
 
-macos-option-as-alt = true     # Option = Alt (alt+←/→ mot à mot en zsh)
+macos-option-as-alt = left
 
 confirm-close-surface = true
 quit-after-last-window-closed = false
