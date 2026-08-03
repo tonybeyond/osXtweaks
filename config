@@ -1,25 +1,177 @@
-# The syntax is "key = value". The whitespace around the
-# equals doesn't matter. 
-# to copy to ~/.config/ghostty/config file
+# ~/.config/ghostty/config
+# Ghostty — macOS Tahoe (26.x) — thème Catppuccin Mocha
+# Syntaxe : "clé = valeur". Les espaces autour du "=" sont ignorés.
+# Recharger : shift+ctrl+r  (ou cmd+shift+, selon binding par défaut)
+# Valider   : ghostty +validate-config
+# Lister    : ghostty +list-themes / +list-fonts / +list-keybinds
+#
+# Les lignes commentées "# [option]" sont des variantes à activer selon goût.
+# ---------------------------------------------------------------------------
 
-theme = catppuccin-mocha
-window-decoration = true
+# =========================== THÈME & COULEURS ==============================
+
+# Nom renommé en 1.2.0 : "catppuccin-mocha" (tiret) -> "Catppuccin Mocha".
+# La forme ci-dessous est celle vérifiée fonctionnelle sur cette machine.
+# Nom canonique du fichier de thème : "Catppuccin Mocha" (majuscules) —
+# à utiliser si cette config est réutilisée sur un FS sensible à la casse.
+# En cas de "theme not found" : ghostty +list-themes
+theme = catppuccin mocha
+
+# Variante auto light/dark (suit l'apparence système) :
+# theme = light:catppuccin latte,dark:catppuccin mocha
+# ⚠ Sur macOS 26 + background-blur glass, les thèmes clairs cassent le
+#   rendu du titlebar (ghostty#9991). Rester en Mocha fixe évite le bug.
+
 window-theme = auto
-macos-titlebar-style = native
-unfocused-split-opacity = 0.30
-copy-on-select = true
-#unfocused-split-fill = "gray"
+
+# selection-invert-fg-bg / cursor-invert-fg-bg : DÉPRÉCIÉS en 1.2.0.
+# Équivalents actuels si besoin d'inverser la sélection :
+# selection-foreground = cell-background
+# selection-background = cell-foreground
+#
+# bold-is-bright existe toujours (non déprécié) ; false est le défaut,
+# donc inutile de le déclarer. Pour teinter le gras : bold-color = <couleur>
+
+# Espace colorimétrique. display-p3 = couleurs plus saturées sur écran Apple.
+window-colorspace = display-p3
+
+# Rendu du texte sur fond transparent. native = défaut macOS.
+# linear-corrected corrige l'épaississement du texte clair sur fond sombre.
+# alpha-blending = linear-corrected
+
+# =============================== POLICE ====================================
+# Monaco Nerd Font n'est PAS une police Nerd Fonts officielle : c'est un
+# patch communautaire. Le nom de famille exact dépend du dépôt installé.
+# Vérifier le nom réel avant de figer :   ghostty +list-fonts | grep -i monaco
+#
+# Les font-family répétés forment une chaîne de repli, dans l'ordre.
+
+font-family = "Monaco Nerd Font Mono"
+font-family = "Monaco Nerd Font"
+font-family = "Monaco"
+font-family = "Symbols Nerd Font Mono"
+
 font-size = 15
 
+# Monaco de base n'a ni gras ni italique réels : macOS les synthétise.
+# Si le patch installé fournit les variantes, les déclarer explicitement :
+# font-family-bold = "Monaco Nerd Font Mono Bold"
+# font-style-italic = "Italic"
+
+# Trait plus épais (macOS uniquement). Utile sur écran non-Retina.
+# font-thicken = true
+
+# Monaco est compact verticalement : aérer un peu si besoin.
+# adjust-cell-height = 10%
+
+# ============================ FENÊTRE & CHROME =============================
+
+window-decoration = auto
+macos-titlebar-style = native
+macos-window-shadow = true
+
+# ⚠ Régression connue depuis 1.3 : avec "native", le séparateur titlebar /
+#   contenu ne s'affiche plus (ghostty#11297). Alternatives si ça gêne :
+# macos-titlebar-style = transparent
+# macos-titlebar-style = tabs        # ⚠ bugs Tahoe + fullscreen (ghostty#9597)
+
+window-padding-x = 12
+window-padding-y = 10,8
+window-padding-balance = true
+
+window-save-state = always
+window-inherit-working-directory = true
+
+# Taille initiale, en cellules (pas en pixels).
+# window-width = 200
+# window-height = 50
+
+resize-overlay = after-first
+
+# ========================= TRANSPARENCE & FLOU =============================
+# background-blur ne s'applique que si background-opacity < 1.
+
+background-opacity = 0.92
+background-blur = 20
+
+# Liquid Glass macOS 26 (nécessite Ghostty ≥ 1.3) :
+# background-blur = macos-glass-regular
+# background-blur = macos-glass-clear
+# ⚠ Effets de bord signalés sur titlebar / tabs / quick terminal : #9991.
+
+unfocused-split-opacity = 0.70
+unfocused-split-fill = #11111b
+
+# 0.30 (votre valeur d'origine) assombrit très fortement les splits inactifs ;
+# 0.70 garde le contexte lisible. Plage acceptée : 0.15 → 1.0.
+
+# ============================== CURSEUR ====================================
+
+cursor-style = bar
+cursor-style-blink = true
+mouse-hide-while-typing = true
+
+# ============================ SÉLECTION / PRESSE-PAPIER ====================
+
+copy-on-select = true
+clipboard-trim-trailing-spaces = true
+link-url = true
+
+# ============================== SHELL / TERM ===============================
+
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+# scrollback-limit est en OCTETS, pas en lignes (défaut : 10000000 = 10 Mo).
+scrollback-limit = 100000000   # 100 Mo, ~10x le défaut
+
+macos-option-as-alt = true     # Option = Alt (alt+←/→ mot à mot en zsh)
+
+confirm-close-surface = true
+quit-after-last-window-closed = false
+
+# ============================== KEYBINDS ===================================
+# Référence des actions : ghostty +list-keybinds
 
 keybind = shift+ctrl+r=reload_config
 
+# --- Créer un split ---
 keybind = shift+ctrl+h=new_split:left
 keybind = shift+ctrl+j=new_split:down
 keybind = shift+ctrl+k=new_split:up
 keybind = shift+ctrl+l=new_split:right
 
+# --- Naviguer entre splits ---
+# goto_split : up/down/left/right/previous/next. "top"/"bottom" restent
+# acceptés — Binding.zig les remappe explicitement sur up/down pour
+# rétro-compatibilité. Vos binds d'origine fonctionnaient donc ; up/down
+# est simplement la forme canonique.
 keybind = shift+ctrl+left=goto_split:left
 keybind = shift+ctrl+right=goto_split:right
-keybind = shift+ctrl+up=goto_split:top
-keybind = shift+ctrl+down=goto_split:bottom
+keybind = shift+ctrl+up=goto_split:up
+keybind = shift+ctrl+down=goto_split:down
+
+# --- Redimensionner (pas de 20 px) ---
+# ctrl+alt plutôt que cmd+alt : laisse cmd+alt libre pour les apps.
+# (Le changement d'espace macOS est ctrl+←/→, non touché ici.)
+keybind = ctrl+alt+left=resize_split:left,20
+keybind = ctrl+alt+right=resize_split:right,20
+keybind = ctrl+alt+up=resize_split:up,20
+keybind = ctrl+alt+down=resize_split:down,20
+
+keybind = shift+ctrl+e=equalize_splits
+keybind = shift+ctrl+z=toggle_split_zoom
+keybind = shift+ctrl+w=close_surface
+
+# --- Quick terminal (déroulant global, style Guake) ---
+keybind = global:cmd+backquote=toggle_quick_terminal
+# quick-terminal-position = top
+# quick-terminal-autohide = true
+
+# --- Confort ---
+keybind = cmd+k=clear_screen
+
+# Navigation entre prompts (nécessite shell-integration active).
+# Noms de touches = codes W3C : vérifier avec `ghostty +list-keybinds`.
+# keybind = shift+ctrl+bracket_left=jump_to_prompt:-1
+# keybind = shift+ctrl+bracket_right=jump_to_prompt:1
